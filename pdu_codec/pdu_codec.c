@@ -7,6 +7,10 @@ gcc pdu_test.c pdu.o -o pdu_test
 
 #include "pdu_codec.h"
 
+#define MSG_NUM_LIMIT   9     //*DON'T INCREASE THAT ANY FURTHER, AS 10 is 2 digits and will cause problem with snprintf below while adding UDH header.
+
+static int ref = 0;
+
 void free_pdu(size_t* n_msgs, char** pdu){
   int k;
   for(k = 0; k < (*n_msgs); k++){
@@ -23,12 +27,17 @@ char** encode_to_pdu(size_t* n_msgs, char* to, char* message, int messagelen, in
   int j = 0;
   int numberOfMsgs = 0;
   int charsInLastMsg = (int)(strlen(message)%SIZE_OF_MSG);
-  char m[3][1024] = {0};
+  char m[MSG_NUM_LIMIT][1024] = {0};
 
   int with_udh = 0;
   char udh_data[18] = {0};
 
-  if((int)strlen(message) > SIZE_OF_MSG*4){
+  srand(time(NULL));
+  ref = rand() % 90 + 10;
+
+  //ref = (ref + 1) % 9;
+
+  if((int)strlen(message) > SIZE_OF_MSG*MSG_NUM_LIMIT){
     return NULL;
   }
 
@@ -44,7 +53,7 @@ char** encode_to_pdu(size_t* n_msgs, char* to, char* message, int messagelen, in
 
   char **pdu = malloc(numberOfMsgs * sizeof(char*));
   for (j =0 ; j < numberOfMsgs; j++){
-    pdu[j] = malloc(300 * sizeof(char));
+    pdu[j] = malloc(512 * sizeof(char));
   }
 
   if(numberOfMsgs == 1){    // Don't add UDH.
@@ -67,8 +76,9 @@ char** encode_to_pdu(size_t* n_msgs, char* to, char* message, int messagelen, in
         
       }
       bzero(udh_data, 18);
-      snprintf(udh_data, 18, "05 00 03 00 0%d 0%d", numberOfMsgs, i+1);
-      //printf("udh_data = %s\n", udh_data);
+
+      snprintf(udh_data, 18, "05 00 03 %d 0%d 0%d", ref, numberOfMsgs, i+1);
+      printf("UDH Header = %s\n", udh_data);
       make_pdu(to, m[i], strlen(m[i]), alphabet, flash_sms, report, with_udh, udh_data, mode, pdu[i], validity, replace_msg, system_msg, to_type, smsc);
 
       //printf("size to send: %d\n", (int)((strlen(pdu[i])-2)/2));
