@@ -1,14 +1,20 @@
-/*
-gcc -c pdu.c charset.c logging.c extras.c locking.c stats.c cfgfile.c alarm.c modeminit.c whitelist.c blacklist.c smsd_cfg.c smsd.c -D NUMBER_OF_MODEMS=1 -D NOSTATS -g
-ld -r pdu.o charset.o logging.o extras.o locking.o stats.o cfgfile.o alarm.o modeminit.o whitelist.o blacklist.o smsd_cfg.o smsd.o -o codec.o
-gcc -c pdu_codec.c
-ld -r pdu_codec.o codec.o -o pdu.o
-gcc pdu_test.c pdu.o -o pdu_test
+/*  
+This file is part of Multi-part-SMS-PDU-generator.
+Copyright (C) 2015 Shoaib Ahmed.
 
-For sending arabic, use alphabet=2 and unicode characters for every two bytes as \x06\x33\x06\x44\x06\x4a\x06\x45 for سليم. https://www.branah.com/unicode-converter 
+Multi-part-SMS-PDU-generator is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Multi-part-SMS-PDU-generator is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multi-part-SMS-PDU-generator.  If not, see <http://www.gnu.org/licenses/>.
 */
-
-
 #include "pdu_codec.h"
 #include <locale.h>
 #include <wchar.h>
