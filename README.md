@@ -44,3 +44,9 @@ And, don't forget to call free_pdu() after you're done with the pdu.
 For sending arabic (or other languages), use alphabet=2 and unicode characters for every two bytes as \x06\x33\x06\x44\x06\x4a\x06\x45 for سليم. 
 
 [Here's](https://www.branah.com/unicode-converter.) a good online converter.
+
+
+Credits:
+========
+
+This project essentially provides a linkable API to an earlier version of [SMS Server Tools 3](smstools3.kekekasvi.com/) code. So all credit to Stefan Frings (original author of SMS Server Tools), Keijo "Keke" Kasvi (current maintainer) and other contributors.
