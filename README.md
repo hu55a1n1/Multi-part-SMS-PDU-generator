@@ -41,6 +41,12 @@ For sending arabic (or other languages), use `alphabet=2` and unicode for every 
 [Here's](https://www.branah.com/unicode-converter) a good online converter.
 
 
+Support:
+========
+
+If you have any queries, please ask on stackoverflow.com using the tag `multipart-pdu-gen-c`.
+
+
 Credits:
 ========
 
